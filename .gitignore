@@ -1,0 +1,28 @@
+# Data files
+data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python/
+env/
+venv/
+*.env
+.idea/ # For PyCharm users
+.vscode/ # For VS Code users
+.ipynb_checkpoints/
+*.csv
+*.zip
+*.sqlite
+*.pkl
+*.joblib
+*.h5
+mlruns/ # MLflow tracking artifacts
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
