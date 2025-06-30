@@ -1,0 +1,23 @@
+        version: '3.8' # Specify Docker Compose file format version
+
+        services:
+          api:
+            build: . # Build the Docker image using the Dockerfile in the current directory
+            ports:
+              - "8000:8000" # Map host port 8000 to container port 8000
+            volumes:
+              # Mount local directories into the container.
+              # This is useful for development (changes in src/ are reflected without rebuild)
+              # and for ensuring mlruns/ and data/processed/ are accessible inside the container.
+              - ./src:/app/src
+              - ./mlruns:/app/mlruns
+              # If your data_processing.py needs raw data at runtime (e.g., if you process on the fly)
+              # then you might need to mount the raw data too:
+              # - ./data/raw:/app/data/raw
+            environment:
+              # Define environment variables for the container if needed.
+              # For MLflow, if you were using a remote tracking server, you'd set MLFLOW_TRACKING_URI here.
+              # For local tracking, it defaults to `mlruns/` inside the container.
+              - MODEL_NAME=CreditRiskPredictorPipeline
+              - MODEL_VERSION=1 # Ensure this matches the version you logged or 'Production'
+        

@@ -13,3 +13,11 @@ pydantic
 pytest
 flake8
 black
+fastapi
+uvicorn[standard] # [standard] includes necessary dependencies like httptools, websockets
+flake8            # Or black, for linting/formatting
+mlflow            # Already there, but confirm
+scikit-learn      # Already there, but confirm
+pandas            # Already there, but confirm
+numpy             # Already there, but confirm
+cloudpickle       # Added for MLflow pyfunc model serialization

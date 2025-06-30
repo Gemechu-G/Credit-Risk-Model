@@ -1,0 +1,49 @@
+    name: CI Pipeline
+
+    on:
+      push:
+        branches:
+          - main # Trigger on pushes to the main branch
+      pull_request:
+        branches:
+          - main # Trigger on pull requests targeting the main branch
+
+    jobs:
+      build-and-test:
+        runs-on: ubuntu-latest # Use the latest Ubuntu runner
+
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v3 # Action to check out your repository code
+
+        - name: Set up Python
+          uses: actions/setup-python@v4 # Action to set up Python environment
+          with:
+            python-version: '3.9' # Specify the Python version to use
+
+        - name: Install dependencies
+          run: |
+            # Upgrade pip and install all dependencies from requirements.txt
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+
+        - name: Run Flake8 Linter
+          run: |
+            # Install flake8 if not already in requirements.txt (it should be)
+            # pip install flake8
+            # Run flake8.
+            # --count: show total number of errors and warnings
+            # --select=E9,F63,F7,F82: specific error codes to check (syntax errors, undefined names etc.)
+            # --show-source: show the line of code for each error
+            # --statistics: show statistics per error code
+            flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+            # --exit-zero: don't fail the build on style errors, but still show them
+            # --max-complexity=10: cyclomatic complexity limit
+            # --max-line-length=120: max line length
+            flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics
+
+        - name: Run Pytest
+          run: |
+            # Run all tests in the 'tests/' directory
+            pytest tests/
+    
